@@ -1,21 +1,10 @@
-# VisionEdge
-<<<<<<< HEAD
-# VisionEdge
+VisionEdge AI Surveillance Studio
+A polished computer vision and edge-computing project with a live dashboard UI for object detection, face recognition, recording, snapshots, and alerting.
 
-=======
->>>>>>> f130087ac4a599213e1462e080b443705e4772de
-VisionEdge is an AI-powered computer vision platform built using Django and YOLOv8.
-
-Features:
-- Image Upload
-- Object Detection
-- Detection History
-- Confidence Scores
-- Responsive Dashboard
-
-Tech Stack:
-<<<<<<< HEAD
-Python, Django, YOLOv8, HTML, CSS, Bootstrap, SQLite
-=======
-Python, Django, YOLOv8, HTML, CSS, Bootstrap, SQLite
->>>>>>> f130087ac4a599213e1462e080b443705e4772de
+Features
+Live camera feed with a modern desktop dashboard
+Object detection using Ultralytics YOLO
+Face recognition mode with known-face matching
+Recording to video files
+Snapshot capture and alert integration
+SQLite-based event logging
