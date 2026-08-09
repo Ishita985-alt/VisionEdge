@@ -4,6 +4,8 @@ A modern **Computer Vision** and **Edge AI Surveillance System** developed as pa
 
 VisionEdge is designed to provide intelligent real-time surveillance using computer vision techniques such as object detection, face recognition, event logging, recording, and automated alert generation.
 
+The project follows a modular architecture so that camera management, frame processing, AI inference, recording, database logging, alerts, and dashboard components can be developed and integrated independently.
+
 ---
 
 # 🚀 Features
@@ -18,38 +20,54 @@ VisionEdge is designed to provide intelligent real-time surveillance using compu
 - 🗄️ SQLite-based event logging
 - ⚙️ Modular backend architecture
 - 🔧 Configurable application settings
+- 📂 Organized project structure for collaborative development
 
 ---
 
 # 📁 Project Structure
 
-    VisionEdge/
-    │
-    ├── Images/
-    │
-    ├── backend/
-    │   ├── app.py
-    │   ├── config.py
-    │   └── requirements.txt
-    │
-    ├── decoder/
-    │   ├── video_decoder.py
-    │   └── test_camera.py
-    │
-    ├── inference/
-    │   └── trt_inference.py
-    │
-    ├── models/
-    │
-    ├── scripts/
-    │   ├── build_engine.py
-    │   └── export_onnx.py
-    │
-    ├── streams/
-    │
-    ├── main.py
-    ├── README.md
-    └── .gitignore
+```text
+VisionEdge/
+│
+├── Images/
+│   └── .gitkeep
+│
+├── backend/
+│   ├── app.py
+│   ├── config.py
+│   └── requirements.txt
+│
+├── decoder/
+│   ├── video_decoder.py
+│   └── test_camera.py
+│
+├── inference/
+│   └── trt_inference.py
+│
+├── models/
+│   └── .gitkeep
+│
+├── output/
+│   ├── database/
+│   ├── logs/
+│   ├── recordings/
+│   └── snapshots/
+│
+├── processing/
+│   ├── frame_processor.py
+│   └── test_frame_processor.py
+│
+├── scripts/
+│   ├── build_engine.py
+│   └── export_onnx.py
+│
+├── streams/
+│   └── .gitkeep
+│
+├── main.py
+├── README.md
+└── .gitignore
+```
 
 ---
 
@@ -97,34 +115,101 @@ VisionEdge is designed to provide intelligent real-time surveillance using compu
 - Successful camera testing at 1280×720 resolution
 - Keyboard-controlled shutdown using Q/ESC
 
+### Day 3 – Frame Processing Pipeline
+
+- Created modular `processing` package
+- Implemented `FrameProcessor`
+- Added frame validation
+- Added invalid-frame handling
+- Added frame resizing functionality
+- Added basic frame preprocessing
+- Added processing error handling
+- Added frame processing logging
+- Added `test_frame_processor.py`
+- Tested 1280×720 input frame processing
+- Validated 640×640 processed output
+- Tested handling of invalid/empty frames
+- Prepared the processing layer for future YOLO/inference integration
+
 ---
 
 # 🧪 Camera Manager Validation
 
-The Camera Manager was successfully tested using a physical camera.
+The Camera Manager was tested successfully using a physical camera.
 
 ### Test Result
 
-    VisionEdge Camera Manager Test
+```text
+[✓] Camera started successfully
+[✓] Resolution: 1280x720
+[✓] Camera window opened
+[INFO] Stop key pressed.
+[✓] Camera released
+[✓] Camera test completed
+```
 
-    [✓] Camera started successfully
-    [✓] Resolution: 1280x720
-    [✓] Camera window opened
-    [✓] Press Q inside the camera window to stop
-    [✓] Press ESC inside the camera window to stop
-    [INFO] Stop key pressed.
-    [✓] Camera released
-    [✓] Camera test completed
+The test confirmed successful camera initialization, frame capture, camera control, and resource cleanup.
 
-The successful test confirms that the Camera Manager can initialize the camera, capture frames, configure the camera resolution, process the camera session, and release the camera resources correctly.
+---
+
+# 🧪 Frame Processor Validation
+
+The Frame Processor was tested using a simulated OpenCV frame.
+
+### Test Result
+
+```text
+# VisionEdge Frame Processor Test
+
+[✓] Test frame created
+[✓] Original resolution: 1280x720
+[✓] Frame validation successful
+[✓] Processed resolution: 640x640
+[✓] Frame processing completed
+[✓] Day 3 Frame Processor test successful
+
+# Invalid Frame Test
+
+[✓] Invalid frame handled correctly
+```
+
+The test confirmed that the Frame Processor can validate incoming frames, resize valid frames, process frames successfully, and safely handle invalid input.
+
+---
+
+# 🔄 Current Backend Flow
+
+The current backend processing flow is:
+
+```text
+Camera
+   │
+   ▼
+Camera Manager
+   │
+   │ Raw OpenCV Frame
+   ▼
+Frame Processor
+   │
+   ├── Frame Validation
+   ├── Frame Preprocessing
+   └── Frame Resizing
+   │
+   ▼
+Processed Frame
+   │
+   ▼
+Future YOLO / Inference Module
+```
+
+The Frame Processor is intentionally kept separate from the AI inference module so that the modules can be developed independently and integrated later.
 
 ---
 
 # 🚧 Upcoming Backend Development
 
-The following modules will be implemented progressively:
+The following modules are planned for subsequent development:
 
-- Frame Processing Pipeline
 - YOLO Inference Integration
 - Video Recording Module
 - Snapshot Module
@@ -132,7 +217,7 @@ The following modules will be implemented progressively:
 - Event Logging
 - Alert Management
 - Dashboard Integration
-- Integration with other VisionEdge modules
+- Backend Integration with other VisionEdge modules
 
 ---
 
@@ -142,13 +227,13 @@ The following modules will be implemented progressively:
 |-----|------------------|--------|
 | Day 1 | Backend Initialization & Configuration | ✅ Completed |
 | Day 2 | Camera Manager & Frame Capture | ✅ Completed |
-| Day 3 | Frame Processing Pipeline | 🚧 Upcoming |
+| Day 3 | Frame Processing Pipeline | ✅ Completed |
 | Day 4 | Database & Event Logging | 🚧 Upcoming |
 | Day 5 | Recording & Snapshot Management | 🚧 Upcoming |
 | Day 6 | Alert Management & Backend Integration | 🚧 Upcoming |
 | Day 7 | Testing, Integration & Final Review | 🚧 Upcoming |
 
-> **Note:** The development timeline may be adjusted based on team discussions, module dependencies, and internship deliverables.
+> **Note:** The timeline may be adjusted based on team discussions, module dependencies, and internship deliverables.
 
 ---
 
@@ -176,7 +261,7 @@ This project is being developed collaboratively as part of the **Python Developm
 | 5 | Ravikumar S |
 | 6 | Anthati Venkatesh |
 
-> **Note:** Work distribution and module assignments are currently in progress. Individual responsibilities will be updated as development progresses.
+> **Note:** Work distribution and module assignments are being finalized collaboratively.
 
 ---
 
@@ -195,7 +280,7 @@ This project is being developed collaboratively as part of the **Python Developm
 
 # 📊 Current Status
 
-**Project Version:** `0.2.0`
+**Project Version:** `0.3.0`
 
 ### ✅ Completed Modules
 
@@ -205,11 +290,14 @@ This project is being developed collaboratively as part of the **Python Developm
 - Camera Manager
 - Camera Frame Capture
 - Camera Testing
+- Frame Processor
+- Frame Validation
+- Frame Resizing
+- Frame Processing Testing
 
 ### 🚧 Modules Under Development
 
-- Frame Processing Pipeline
-- AI Inference
+- YOLO / AI Inference Integration
 - Database Integration
 - Recording System
 - Snapshot System
@@ -234,7 +322,7 @@ This project is being developed collaboratively as part of the **Python Developm
 
 ---
 
-# 🔗 Repository
+# 🔗 Repositories
 
 ### Team Repository
 
@@ -244,7 +332,7 @@ https://github.com/Ishita985-alt/VisionEdge
 
 https://github.com/Ravikumar07-Byte/VisionEdge-Backend
 
-> The team repository is used for collaborative development. The backend repository is maintained separately to preserve the backend development history and contributions.
+The team repository is used for collaborative project development. The backend development repository maintains the backend development history and contributions.
 
 ---
 
