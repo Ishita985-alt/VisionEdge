@@ -1,20 +1,25 @@
-# Python cache
+# Python
 __pycache__/
-*.py[cod]
+*.pyc
+*.pyo
+*.pyd
 
-# Virtual environments
+# Virtual environment
 venv/
-.venv/
-
-# Environment variables
 .env
 
-# IDE files
-.vscode/
-.idea/
+# YOLO model files
+*.pt
+*.onnx
 
-# Output folders
+# Runtime output
 output/
+logs/
+*.db
 
-# Logs
+# VS Code
+.vscode/
+
+# Temporary files
+*.tmp
 *.log

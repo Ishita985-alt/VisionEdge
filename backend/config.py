@@ -36,7 +36,7 @@ FPS = 30
 # -----------------------------
 # AI Settings
 # -----------------------------
-MODEL_NAME = "yolov10.pt"
+MODEL_NAME = "yolov8n.pt"
 CONFIDENCE_THRESHOLD = 0.50
 
 # -----------------------------
