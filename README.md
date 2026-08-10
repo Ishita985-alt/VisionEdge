@@ -4,23 +4,23 @@ A modern **Computer Vision** and **Edge AI Surveillance System** developed as pa
 
 VisionEdge is designed to provide intelligent real-time surveillance using computer vision techniques such as object detection, face recognition, event logging, recording, and automated alert generation.
 
-The project follows a modular architecture so that camera management, frame processing, AI inference, recording, database logging, alerts, and dashboard components can be developed and integrated independently.
+The project follows a modular architecture so that camera management, frame processing, AI inference, database logging, recording, alerts, and dashboard components can be developed and integrated independently.
 
 ---
 
 # 🚀 Features
 
-- 🎥 Live camera feed
-- 🖥️ Modern desktop dashboard
-- 🤖 Real-time object detection using **Ultralytics YOLO**
-- 👤 Face recognition with known-face matching
-- 🎬 Video recording
-- 📸 Snapshot capture
-- 🚨 Intelligent alert generation
-- 🗄️ SQLite-based event logging
-- ⚙️ Modular backend architecture
-- 🔧 Configurable application settings
-- 📂 Organized project structure for collaborative development
+- Live camera feed
+- Modern desktop dashboard
+- Real-time object detection using **Ultralytics YOLO**
+- Face recognition with known-face matching
+- Video recording
+- Snapshot capture
+- Intelligent alert generation
+- SQLite-based event logging
+- Modular backend architecture
+- Configurable application settings
+- Organized project structure for collaborative development
 
 ---
 
@@ -35,7 +35,11 @@ VisionEdge/
 ├── backend/
 │   ├── app.py
 │   ├── config.py
-│   └── requirements.txt
+│   ├── requirements.txt
+│   │
+│   └── database/
+│       ├── database_manager.py
+│       └── test_database.py
 │
 ├── decoder/
 │   ├── video_decoder.py
@@ -71,7 +75,7 @@ VisionEdge/
 
 ---
 
-# 🛠️ Technology Stack
+# Technology Stack
 
 | Category | Technologies |
 |----------|--------------|
@@ -85,11 +89,11 @@ VisionEdge/
 
 ---
 
-# 📌 Backend Development Progress
+# Backend Development Progress
 
-## ✅ Completed
+## Day 1 – Backend Initialization
 
-### Day 1 – Backend Initialization
+Completed the initial backend project setup.
 
 - Backend project initialization
 - Configuration management system
@@ -100,155 +104,225 @@ VisionEdge/
 - Python project configuration
 - Git ignore configuration
 
-### Day 2 – Camera Manager
+Status: Completed
 
-- Camera Manager implementation using OpenCV
+---
+
+## Day 2 – Camera Manager
+
+Implemented the Camera Manager using OpenCV.
+
 - Camera initialization and startup
-- Camera resolution configuration
 - Camera availability checking
+- Camera resolution configuration
 - Real-time frame capture
 - Camera start and stop functionality
 - Camera resource cleanup
 - Frame capture error handling
 - Camera operation logging
 - Camera testing module
-- Successful camera testing at 1280×720 resolution
-- Keyboard-controlled shutdown using Q/ESC
+- Successful camera testing at 1280x720 resolution
+- Q and ESC keyboard controls for safely stopping the camera
 
-### Day 3 – Frame Processing Pipeline
+Status: Completed
 
-- Created modular `processing` package
+---
+
+## Day 3 – Frame Processing Pipeline
+
+Implemented the Frame Processing Pipeline as an independent backend module.
+
+- Created the `processing` module
 - Implemented `FrameProcessor`
 - Added frame validation
-- Added invalid-frame handling
-- Added frame resizing functionality
+- Added invalid and empty frame handling
+- Added frame resizing
 - Added basic frame preprocessing
 - Added processing error handling
 - Added frame processing logging
-- Added `test_frame_processor.py`
-- Tested 1280×720 input frame processing
-- Validated 640×640 processed output
-- Tested handling of invalid/empty frames
-- Prepared the processing layer for future YOLO/inference integration
+- Created `test_frame_processor.py`
+- Tested a 1280x720 input frame
+- Successfully processed the frame to 640x640
+- Tested invalid frame handling
+- Prepared the processing layer for future AI inference integration
+
+Status: Completed
 
 ---
 
-# 🧪 Camera Manager Validation
+## Day 4 – SQLite Database and Event Logging
 
-The Camera Manager was tested successfully using a physical camera.
+Implemented the SQLite Database Manager for storing VisionEdge surveillance events.
+
+### Database Manager
+
+- Created the `backend/database` module
+- Implemented `DatabaseManager`
+- Added SQLite database initialization
+- Added automatic database directory creation
+- Added database connection management
+- Added events table creation
+- Added surveillance event insertion
+- Added event retrieval
+- Added database error handling
+- Added database operation logging
+- Added support for configurable database paths
+
+### Event Structure
+
+The events table contains:
+
+| Field | Description |
+|-------|-------------|
+| id | Unique event identifier |
+| timestamp | Event creation time |
+| camera_id | Camera associated with the event |
+| event_type | Type of surveillance event |
+| description | Description of the event |
+| severity | Event severity level |
+
+### Database Location
+
+The SQLite database is automatically created at:
+
+```text
+output/database/visionedge.db
+```
+
+### Database Testing
+
+The Database Manager was successfully tested for:
+
+- Database initialization
+- Events table creation
+- Event insertion
+- Event retrieval
+- Database logging
+- SQLite connection handling
 
 ### Test Result
 
 ```text
-[✓] Camera started successfully
-[✓] Resolution: 1280x720
-[✓] Camera window opened
-[INFO] Stop key pressed.
-[✓] Camera released
-[✓] Camera test completed
+# VisionEdge Database Manager Test
+
+[✓] Database initialized successfully
+[✓] Events table created successfully
+[✓] Event inserted successfully: ID 1
+[✓] Retrieved 1 event(s)
+
+ID: 1
+Camera: camera_0
+Type: motion_detected
+Severity: INFO
+
+[✓] Day 4 Database Manager test completed successfully
 ```
 
-The test confirmed successful camera initialization, frame capture, camera control, and resource cleanup.
+Status: Completed
 
 ---
 
-# 🧪 Frame Processor Validation
+# Current Backend Flow
 
-The Frame Processor was tested using a simulated OpenCV frame.
-
-### Test Result
-
-```text
-# VisionEdge Frame Processor Test
-
-[✓] Test frame created
-[✓] Original resolution: 1280x720
-[✓] Frame validation successful
-[✓] Processed resolution: 640x640
-[✓] Frame processing completed
-[✓] Day 3 Frame Processor test successful
-
-# Invalid Frame Test
-
-[✓] Invalid frame handled correctly
-```
-
-The test confirmed that the Frame Processor can validate incoming frames, resize valid frames, process frames successfully, and safely handle invalid input.
-
----
-
-# 🔄 Current Backend Flow
-
-The current backend processing flow is:
+The current backend architecture is:
 
 ```text
 Camera
-   │
-   ▼
+   |
+   v
 Camera Manager
-   │
-   │ Raw OpenCV Frame
-   ▼
+   |
+   | Raw OpenCV Frame
+   v
 Frame Processor
-   │
-   ├── Frame Validation
-   ├── Frame Preprocessing
-   └── Frame Resizing
-   │
-   ▼
+   |
+   | Validation
+   | Preprocessing
+   | Resizing
+   v
 Processed Frame
-   │
-   ▼
-Future YOLO / Inference Module
+   |
+   v
+Future AI / YOLO Inference
+   |
+   v
+Surveillance Event
+   |
+   v
+Database Manager
+   |
+   v
+SQLite Database
 ```
 
-The Frame Processor is intentionally kept separate from the AI inference module so that the modules can be developed independently and integrated later.
+The individual modules are kept independent so that they can be integrated progressively without creating unnecessary dependencies between team members' work.
 
 ---
 
-# 🚧 Upcoming Backend Development
+# Backend Modules Completed
+
+The following backend components have been completed:
+
+- Backend Initialization
+- Configuration Management
+- Camera Manager
+- Camera Frame Capture
+- Camera Testing
+- Frame Processor
+- Frame Validation
+- Frame Resizing
+- Frame Processing Testing
+- SQLite Database Manager
+- Event Table
+- Event Insertion
+- Event Retrieval
+- Database Testing
+
+---
+
+# Upcoming Backend Development
 
 The following modules are planned for subsequent development:
 
 - YOLO Inference Integration
 - Video Recording Module
 - Snapshot Module
-- SQLite Database Integration
-- Event Logging
+- Event Logging Integration
 - Alert Management
 - Dashboard Integration
-- Backend Integration with other VisionEdge modules
+- Backend Integration with Other VisionEdge Modules
+- End-to-end system testing
 
 ---
 
-# 📅 Development Timeline
+# Development Timeline
 
 | Day | Development Area | Status |
 |-----|------------------|--------|
-| Day 1 | Backend Initialization & Configuration | ✅ Completed |
-| Day 2 | Camera Manager & Frame Capture | ✅ Completed |
-| Day 3 | Frame Processing Pipeline | ✅ Completed |
-| Day 4 | Database & Event Logging | 🚧 Upcoming |
-| Day 5 | Recording & Snapshot Management | 🚧 Upcoming |
-| Day 6 | Alert Management & Backend Integration | 🚧 Upcoming |
-| Day 7 | Testing, Integration & Final Review | 🚧 Upcoming |
+| Day 1 | Backend Initialization and Configuration | Completed |
+| Day 2 | Camera Manager and Frame Capture | Completed |
+| Day 3 | Frame Processing Pipeline | Completed |
+| Day 4 | SQLite Database and Event Logging | Completed |
+| Day 5 | Recording and Snapshot Management | Upcoming |
+| Day 6 | Alert Management and Backend Integration | Upcoming |
+| Day 7 | Testing, Integration and Final Review | Upcoming |
 
-> **Note:** The timeline may be adjusted based on team discussions, module dependencies, and internship deliverables.
+The development timeline may be adjusted based on team discussions, module dependencies, and internship requirements.
 
 ---
 
-# 📚 Internship Information
+# Internship Information
 
 | Field | Details |
 |-------|---------|
 | Organization | Axlero Solutions |
 | Internship | Python Development Internship |
 | Project | VisionEdge AI Surveillance Studio |
-| Domain | Computer Vision & Edge AI |
+| Domain | Computer Vision and Edge AI |
 
 ---
 
-# 👥 Team Members
+# Team Members
 
 This project is being developed collaboratively as part of the **Python Development Internship at Axlero Solutions**.
 
@@ -261,11 +335,11 @@ This project is being developed collaboratively as part of the **Python Developm
 | 5 | Ravikumar S |
 | 6 | Anthati Venkatesh |
 
-> **Note:** Work distribution and module assignments are being finalized collaboratively.
+Work distribution and module assignments are coordinated collaboratively among the team members.
 
 ---
 
-# 👥 Contributors
+# Contributors
 
 | Contributor | Current Status |
 |-------------|----------------|
@@ -274,15 +348,15 @@ This project is being developed collaboratively as part of the **Python Developm
 | Shri Abishek M K | Team Member |
 | Bairi Saivardhan | Team Member |
 | Saifuddin | Team Member |
-| Ravikumar S (@Ravikumar07-Byte) | Backend Development & Repository Contributor |
+| Ravikumar S (@Ravikumar07-Byte) | Backend Development and Repository Contributor |
 
 ---
 
-# 📊 Current Status
+# Current Status
 
-**Project Version:** `0.3.0`
+Project Version: `0.4.0`
 
-### ✅ Completed Modules
+## Completed Modules
 
 - Project Structure
 - Backend Initialization
@@ -290,24 +364,29 @@ This project is being developed collaboratively as part of the **Python Developm
 - Camera Manager
 - Camera Frame Capture
 - Camera Testing
-- Frame Processor
+- Frame Processing Pipeline
 - Frame Validation
 - Frame Resizing
 - Frame Processing Testing
+- SQLite Database Manager
+- Events Table
+- Event Insertion
+- Event Retrieval
+- Database Testing
 
-### 🚧 Modules Under Development
+## Modules Under Development
 
 - YOLO / AI Inference Integration
-- Database Integration
-- Recording System
-- Snapshot System
+- Video Recording
+- Snapshot Management
 - Alert Management
 - Dashboard Integration
-- Backend Integration with Other Modules
+- Backend Integration
+- End-to-End Testing
 
 ---
 
-# 🔮 Future Enhancements
+# Future Enhancements
 
 - Multi-camera support
 - GPU acceleration
@@ -322,13 +401,13 @@ This project is being developed collaboratively as part of the **Python Developm
 
 ---
 
-# 🔗 Repositories
+# Repositories
 
-### Team Repository
+## Team Repository
 
 https://github.com/Ishita985-alt/VisionEdge
 
-### Backend Development Repository
+## Backend Development Repository
 
 https://github.com/Ravikumar07-Byte/VisionEdge-Backend
 
@@ -336,12 +415,12 @@ The team repository is used for collaborative project development. The backend d
 
 ---
 
-# 📄 License
+# License
 
 This project is developed as part of the **Python Development Internship at Axlero Solutions** for educational, learning, and demonstration purposes.
 
 ---
 
-# ⭐ Acknowledgements
+# Acknowledgements
 
 Special thanks to **Axlero Solutions** for providing the internship opportunity and project guidance, and to all contributors collaborating on the development of VisionEdge AI Surveillance Studio.
