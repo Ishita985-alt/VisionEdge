@@ -1,25 +1,47 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
-*.pyd
 
-# Virtual environment
+# Virtual environments
+.venv/
 venv/
-.env
+env/
 
-# YOLO model files
-*.pt
-*.onnx
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Runtime output
 output/
-logs/
-*.db
 
-# VS Code
-.vscode/
+# Logs
+*.log
+
+# Machine learning model binaries
+*.pt
+*.pth
+*.onnx
+*.engine
+*.plan
 
 # Temporary files
 *.tmp
-*.log
+*.temp
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
