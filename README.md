@@ -153,7 +153,33 @@ Status: Completed
 ## Day 4 – SQLite Database and Event Logging
 
 Implemented the SQLite Database Manager for storing VisionEdge surveillance events.
+## Day 5 — Video Recording Module
 
+Implemented the VisionEdge video recording module using OpenCV.
+
+- Created `VideoRecorder` class for video recording.
+- Added video writer initialization with configurable FPS and codec.
+- Added frame writing and frame-size handling.
+- Added recording start and stop functionality.
+- Added recording state management.
+- Added resource cleanup and error handling.
+- Created `test_video_recorder.py` to validate recording functionality.
+- Verified successful generation of `test_recording.mp4`.
+- Added invalid-frame validation and testing.
+
+## Day 6 — Camera & Video Recording Integration
+
+Integrated the video recording module with the VisionEdge backend `CameraManager`.
+
+- Integrated `VideoRecorder` into `CameraManager`.
+- Automatically starts recording when the camera starts.
+- Records processed camera frames during live operation.
+- Stops and releases the recorder when the camera stops.
+- Added `CameraManager` resource cleanup for the video recorder.
+- Created `backend/test_recording_integration.py`.
+- Tested camera startup, YOLO frame processing, video recording, and camera shutdown.
+- Successfully processed camera frames and generated `visionedge_recording.mp4`.
+- Verified that recording becomes inactive after the camera stops.
 ### Database Manager
 
 - Created the `backend/database` module
@@ -297,15 +323,14 @@ The following modules are planned for subsequent development:
 
 # Development Timeline
 
-| Day | Development Area | Status |
-|-----|------------------|--------|
-| Day 1 | Backend Initialization and Configuration | Completed |
-| Day 2 | Camera Manager and Frame Capture | Completed |
-| Day 3 | Frame Processing Pipeline | Completed |
-| Day 4 | SQLite Database and Event Logging | Completed |
-| Day 5 | Recording and Snapshot Management | Upcoming |
-| Day 6 | Alert Management and Backend Integration | Upcoming |
-| Day 7 | Testing, Integration and Final Review | Upcoming |
+|Day	Development Area	Status
+Day 1	Backend Initialization and Configuration	Completed
+Day 2	Camera Manager and Frame Capture	Completed
+Day 3	Frame Processing Pipeline	Completed
+Day 4	SQLite Database and Event Logging	Completed
+Day 5	Video Recording Module	Completed
+Day 6	Camera & Video Recording Integration	Completed
+Day 7	Alert Management, Testing and Final Review	Upcoming
 
 The development timeline may be adjusted based on team discussions, module dependencies, and internship requirements.
 
