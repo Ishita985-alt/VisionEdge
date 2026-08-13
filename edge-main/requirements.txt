@@ -1,0 +1,8 @@
+numpy<2
+opencv-python
+ultralytics
+Pillow
+flask
+face-recognition
+pandas
+yagmail
