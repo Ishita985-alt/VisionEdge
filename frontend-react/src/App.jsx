@@ -12,6 +12,10 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [activeNav, setActiveNav] = useState("Dashboard");
 
+    // Snapshot notification state
+    const [snapshotMessage, setSnapshotMessage] = useState("");
+    const [snapshotSuccess, setSnapshotSuccess] = useState(false);
+
     useEffect(() => {
         checkBackend();
         loadStatus();
@@ -109,7 +113,10 @@ function App() {
             if (data.success) {
                 setCameraStatus("ONLINE");
             } else {
-                alert(data.message || "Unable to start camera");
+                alert(
+                    data.message ||
+                    "Unable to start camera"
+                );
             }
         } catch (error) {
             console.error(error);
@@ -130,6 +137,9 @@ function App() {
             );
 
             setCameraStatus("OFFLINE");
+
+            // Clear snapshot notification when camera stops
+            setSnapshotMessage("");
         } catch (error) {
             console.error(error);
         }
@@ -137,8 +147,22 @@ function App() {
         loadStatus();
     };
 
+    // =========================================================
+    // SNAPSHOT
+    // =========================================================
+
     const captureSnapshot = async () => {
+        if (!cameraOnline) {
+            setSnapshotSuccess(false);
+            setSnapshotMessage(
+                "Camera is offline. Start the camera first."
+            );
+            return;
+        }
+
         try {
+            setSnapshotMessage("");
+
             const response = await fetch(
                 `${API_URL}/capture_snapshot`,
                 {
@@ -148,14 +172,35 @@ function App() {
 
             const data = await response.json();
 
-            if (data.success) {
-                alert("Snapshot captured successfully.");
-            } else {
-                alert(data.message || "Snapshot failed.");
+            if (!response.ok || !data.success) {
+                setSnapshotSuccess(false);
+                setSnapshotMessage(
+                    data.message ||
+                    "Snapshot capture failed."
+                );
+                return;
             }
+
+            setSnapshotSuccess(true);
+            setSnapshotMessage(
+                `Snapshot captured: ${data.filename}`
+            );
+
+            // Automatically hide the notification
+            setTimeout(() => {
+                setSnapshotMessage("");
+            }, 5000);
+
         } catch (error) {
-            console.error(error);
-            alert("Could not capture snapshot.");
+            console.error(
+                "Snapshot error:",
+                error
+            );
+
+            setSnapshotSuccess(false);
+            setSnapshotMessage(
+                "Unable to connect to the VisionEdge backend."
+            );
         }
     };
 
@@ -163,14 +208,15 @@ function App() {
         cameraStatus === "ONLINE" ||
         cameraStatus === "RUNNING";
 
-    const formattedTime = currentTime.toLocaleTimeString(
-        [],
-        {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-        }
-    );
+    const formattedTime =
+        currentTime.toLocaleTimeString(
+            [],
+            {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+            }
+        );
 
     return (
         <div className="app">
@@ -180,14 +226,18 @@ function App() {
             <aside className="sidebar">
 
                 <div className="brand">
+
                     <div className="brand-logo">
                         VE
                     </div>
 
                     <div>
                         <h2>VisionEdge</h2>
-                        <span>AI Surveillance</span>
+                        <span>
+                            AI Surveillance
+                        </span>
                     </div>
+
                 </div>
 
                 <nav className="navigation">
@@ -277,6 +327,7 @@ function App() {
                         />
 
                         <div>
+
                             <strong>
                                 System
                             </strong>
@@ -286,6 +337,7 @@ function App() {
                                     ? "Operational"
                                     : "Offline"}
                             </small>
+
                         </div>
 
                     </div>
@@ -293,7 +345,6 @@ function App() {
                 </div>
 
             </aside>
-
 
             {/* MAIN */}
 
@@ -304,6 +355,7 @@ function App() {
                 <header className="topbar">
 
                     <div>
+
                         <div className="breadcrumb">
                             VisionEdge / Dashboard
                         </div>
@@ -313,9 +365,10 @@ function App() {
                         </h1>
 
                         <p>
-                            Real-time monitoring and intelligent
-                            security analysis
+                            Real-time monitoring and
+                            intelligent security analysis
                         </p>
+
                     </div>
 
                     <div className="topbar-right">
@@ -347,7 +400,6 @@ function App() {
                     </div>
 
                 </header>
-
 
                 {/* STAT CARDS */}
 
@@ -381,7 +433,6 @@ function App() {
 
                     </div>
 
-
                     <div className="stat-card">
 
                         <div className="stat-header">
@@ -404,7 +455,6 @@ function App() {
 
                     </div>
 
-
                     <div className="stat-card">
 
                         <div className="stat-header">
@@ -426,7 +476,6 @@ function App() {
                         </div>
 
                     </div>
-
 
                     <div className="stat-card">
 
@@ -452,7 +501,6 @@ function App() {
 
                 </section>
 
-
                 {/* CAMERA + STATUS */}
 
                 <section className="dashboard-grid">
@@ -464,6 +512,7 @@ function App() {
                         <div className="panel-header">
 
                             <div>
+
                                 <h2>
                                     Live Surveillance
                                 </h2>
@@ -471,6 +520,7 @@ function App() {
                                 <span>
                                     Primary camera feed
                                 </span>
+
                             </div>
 
                             <div
@@ -487,16 +537,18 @@ function App() {
 
                         </div>
 
-
                         <div className="camera-container">
 
                             {cameraOnline ? (
+
                                 <img
                                     src={`${API_URL}/video_feed`}
                                     alt="Live camera feed"
                                     className="camera-feed"
                                 />
+
                             ) : (
+
                                 <div className="camera-placeholder">
 
                                     <div className="camera-icon">
@@ -508,15 +560,15 @@ function App() {
                                     </h3>
 
                                     <p>
-                                        Start the camera to begin
-                                        live surveillance.
+                                        Start the camera to
+                                        begin live surveillance.
                                     </p>
 
                                 </div>
+
                             )}
 
                         </div>
-
 
                         <div className="camera-controls">
 
@@ -534,7 +586,9 @@ function App() {
                             <button
                                 className="btn btn-stop"
                                 onClick={stopCamera}
-                                disabled={!cameraOnline}
+                                disabled={
+                                    !cameraOnline
+                                }
                             >
                                 ■ Stop Camera
                             </button>
@@ -542,15 +596,52 @@ function App() {
                             <button
                                 className="btn btn-snapshot"
                                 onClick={captureSnapshot}
-                                disabled={!cameraOnline}
+                                disabled={
+                                    !cameraOnline
+                                }
                             >
                                 ◎ Snapshot
                             </button>
 
                         </div>
 
-                    </div>
+                        {/* SNAPSHOT NOTIFICATION */}
 
+                        {snapshotMessage && (
+
+                            <div
+                                className={`snapshot-notification ${
+                                    snapshotSuccess
+                                        ? "success"
+                                        : "error"
+                                }`}
+                            >
+
+                                <span className="snapshot-notification-icon">
+                                    {snapshotSuccess
+                                        ? "✓"
+                                        : "!"}
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        {snapshotSuccess
+                                            ? "Snapshot Captured"
+                                            : "Snapshot Failed"}
+                                    </strong>
+
+                                    <p>
+                                        {snapshotMessage}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        )}
+
+                    </div>
 
                     {/* STATUS */}
 
@@ -559,6 +650,7 @@ function App() {
                         <div className="panel-header">
 
                             <div>
+
                                 <h2>
                                     System Status
                                 </h2>
@@ -566,16 +658,17 @@ function App() {
                                 <span>
                                     Infrastructure health
                                 </span>
+
                             </div>
 
                         </div>
-
 
                         <div className="status-list">
 
                             <div className="status-row">
 
                                 <div>
+
                                     <strong>
                                         Backend API
                                     </strong>
@@ -583,6 +676,7 @@ function App() {
                                     <small>
                                         Flask server
                                     </small>
+
                                 </div>
 
                                 <span
@@ -599,10 +693,10 @@ function App() {
 
                             </div>
 
-
                             <div className="status-row">
 
                                 <div>
+
                                     <strong>
                                         Camera
                                     </strong>
@@ -610,6 +704,7 @@ function App() {
                                     <small>
                                         Video capture device
                                     </small>
+
                                 </div>
 
                                 <span
@@ -626,10 +721,10 @@ function App() {
 
                             </div>
 
-
                             <div className="status-row">
 
                                 <div>
+
                                     <strong>
                                         YOLO AI Model
                                     </strong>
@@ -637,6 +732,7 @@ function App() {
                                     <small>
                                         Object detection engine
                                     </small>
+
                                 </div>
 
                                 <span className="badge ready">
@@ -645,10 +741,10 @@ function App() {
 
                             </div>
 
-
                             <div className="status-row">
 
                                 <div>
+
                                     <strong>
                                         Database
                                     </strong>
@@ -656,6 +752,7 @@ function App() {
                                     <small>
                                         Event persistence
                                     </small>
+
                                 </div>
 
                                 <span className="badge ready">
@@ -670,7 +767,6 @@ function App() {
 
                 </section>
 
-
                 {/* EVENTS */}
 
                 <section className="panel events-panel">
@@ -678,13 +774,16 @@ function App() {
                     <div className="panel-header">
 
                         <div>
+
                             <h2>
                                 Recent Security Events
                             </h2>
 
                             <span>
-                                Latest events detected by VisionEdge
+                                Latest events detected by
+                                VisionEdge
                             </span>
+
                         </div>
 
                         <button
@@ -695,7 +794,6 @@ function App() {
                         </button>
 
                     </div>
-
 
                     <div className="table-container">
 
@@ -754,16 +852,20 @@ function App() {
                                                 </td>
 
                                                 <td>
+
                                                     <span className="severity-info">
                                                         {event.severity ||
                                                             "INFO"}
                                                     </span>
+
                                                 </td>
 
                                                 <td>
+
                                                     <span className="badge ready">
                                                         DETECTED
                                                     </span>
+
                                                 </td>
 
                                             </tr>

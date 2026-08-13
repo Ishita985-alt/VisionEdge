@@ -5,24 +5,50 @@
 }
 
 :root {
-    --bg: #060a11;
-    --sidebar: #0a1019;
-    --panel: #0f1723;
-    --panel-light: #151f2d;
-    --border: #1d2938;
+    --bg: #050810;
+    --bg-secondary: #080d16;
+    --sidebar: #090f19;
+
+    --panel: #0c1420;
+    --panel-hover: #101b2a;
+    --panel-soft: #111c2b;
+
+    --border: #1a2636;
+    --border-light: #243449;
 
     --text: #f8fafc;
-    --muted: #8190a5;
+    --text-secondary: #cbd5e1;
+    --muted: #7d8da3;
+    --muted-dark: #526174;
 
     --blue: #2563eb;
     --blue-light: #60a5fa;
+    --cyan: #06b6d4;
 
     --green: #22c55e;
+    --green-light: #4ade80;
+
     --red: #ef4444;
+    --red-light: #f87171;
+
     --yellow: #f59e0b;
+    --purple: #8b5cf6;
+
+    --shadow:
+        0 10px 30px rgba(0, 0, 0, 0.25);
+
+    --shadow-blue:
+        0 0 30px rgba(37, 99, 235, 0.08);
+}
+
+html {
+    background: var(--bg);
 }
 
 body {
+    min-width: 320px;
+    min-height: 100vh;
+
     font-family:
         Inter,
         ui-sans-serif,
@@ -32,15 +58,26 @@ body {
         "Segoe UI",
         sans-serif;
 
-    background: var(--bg);
+    background:
+        radial-gradient(
+            circle at 70% 10%,
+            rgba(37, 99, 235, 0.05),
+            transparent 30%
+        ),
+        var(--bg);
+
     color: var(--text);
 
-    min-width: 320px;
-    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
 }
 
 button {
     font-family: inherit;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 2px;
 }
 
 .app {
@@ -55,6 +92,7 @@ button {
 
 .sidebar {
     position: fixed;
+
     left: 0;
     top: 0;
     bottom: 0;
@@ -64,8 +102,8 @@ button {
     background:
         linear-gradient(
             180deg,
-            #0b111b 0%,
-            #080e17 100%
+            #0a111c 0%,
+            #070d16 100%
         );
 
     border-right: 1px solid var(--border);
@@ -73,11 +111,14 @@ button {
     display: flex;
     flex-direction: column;
 
-    z-index: 20;
+    z-index: 100;
+
+    box-shadow:
+        10px 0 40px rgba(0, 0, 0, 0.12);
 }
 
 .brand {
-    height: 90px;
+    height: 88px;
 
     padding: 0 22px;
 
@@ -93,6 +134,8 @@ button {
     width: 42px;
     height: 42px;
 
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,8 +145,8 @@ button {
     background:
         linear-gradient(
             135deg,
-            #2563eb,
-            #06b6d4
+            var(--blue),
+            var(--cyan)
         );
 
     color: white;
@@ -112,14 +155,14 @@ button {
     font-size: 13px;
 
     box-shadow:
-        0 8px 25px
-        rgba(37, 99, 235, 0.25);
+        0 8px 25px rgba(37, 99, 235, 0.28);
 }
 
 .brand h2 {
     font-size: 17px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
+    font-weight: 750;
+
+    letter-spacing: -0.4px;
 }
 
 .brand span {
@@ -130,7 +173,8 @@ button {
     color: var(--muted);
 
     font-size: 10px;
-    letter-spacing: 0.5px;
+
+    letter-spacing: 0.6px;
 }
 
 .navigation {
@@ -160,7 +204,7 @@ button {
     cursor: pointer;
 
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 550;
 
     display: flex;
     align-items: center;
@@ -168,9 +212,9 @@ button {
     gap: 12px;
 
     transition:
-        background 0.2s,
-        color 0.2s,
-        transform 0.2s;
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .nav-item span {
@@ -182,7 +226,8 @@ button {
 }
 
 .nav-item:hover {
-    background: var(--panel-light);
+    background: rgba(255, 255, 255, 0.035);
+
     color: var(--text);
 
     transform: translateX(2px);
@@ -194,11 +239,14 @@ button {
     background:
         linear-gradient(
             90deg,
-            rgba(37, 99, 235, 0.22),
-            rgba(37, 99, 235, 0.08)
+            rgba(37, 99, 235, 0.20),
+            rgba(37, 99, 235, 0.05)
         );
 
     border-left: 2px solid var(--blue-light);
+
+    box-shadow:
+        inset 10px 0 25px rgba(37, 99, 235, 0.03);
 }
 
 .sidebar-bottom {
@@ -215,11 +263,14 @@ button {
 
     gap: 10px;
 
-    padding: 10px;
+    padding: 11px;
 
-    background: rgba(255, 255, 255, 0.02);
+    background:
+        rgba(255, 255, 255, 0.025);
 
-    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.025);
+
+    border-radius: 9px;
 }
 
 .system-mini strong {
@@ -248,7 +299,7 @@ button {
 
     margin-left: 250px;
 
-    padding: 28px 32px 40px;
+    padding: 28px 32px 50px;
 }
 
 .topbar {
@@ -265,7 +316,7 @@ button {
 }
 
 .breadcrumb {
-    color: #64748b;
+    color: var(--muted-dark);
 
     font-size: 10px;
 
@@ -277,15 +328,15 @@ button {
 }
 
 .topbar h1 {
-    font-size: 24px;
+    font-size: 25px;
 
-    font-weight: 700;
+    font-weight: 750;
 
-    letter-spacing: -0.6px;
+    letter-spacing: -0.7px;
 }
 
 .topbar p {
-    margin-top: 6px;
+    margin-top: 7px;
 
     color: var(--muted);
 
@@ -305,11 +356,11 @@ button {
 
     gap: 8px;
 
-    color: #9aa8bb;
+    color: #a4b0c1;
 
     font-size: 10px;
 
-    font-weight: 700;
+    font-weight: 750;
 
     letter-spacing: 0.6px;
 }
@@ -323,8 +374,8 @@ button {
 }
 
 .profile {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
 
     border-radius: 50%;
 
@@ -335,14 +386,17 @@ button {
     background:
         linear-gradient(
             135deg,
-            #2563eb,
-            #06b6d4
+            var(--blue),
+            var(--cyan)
         );
 
     color: white;
 
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 750;
+
+    box-shadow:
+        0 6px 20px rgba(37, 99, 235, 0.2);
 }
 
 
@@ -357,22 +411,22 @@ button {
     display: inline-block;
 
     border-radius: 50%;
+
+    flex-shrink: 0;
 }
 
 .status-dot.online {
     background: var(--green);
 
     box-shadow:
-        0 0 10px
-        rgba(34, 197, 94, 0.8);
+        0 0 10px rgba(34, 197, 94, 0.85);
 }
 
 .status-dot.offline {
     background: var(--red);
 
     box-shadow:
-        0 0 8px
-        rgba(239, 68, 68, 0.5);
+        0 0 8px rgba(239, 68, 68, 0.55);
 }
 
 
@@ -392,30 +446,62 @@ button {
 }
 
 .stat-card {
-    min-height: 130px;
+    min-height: 135px;
 
-    padding: 18px;
+    padding: 19px;
+
+    position: relative;
+
+    overflow: hidden;
 
     background:
         linear-gradient(
             145deg,
             rgba(15, 23, 35, 0.98),
-            rgba(12, 19, 30, 0.98)
+            rgba(10, 17, 27, 0.98)
         );
 
     border: 1px solid var(--border);
 
-    border-radius: 10px;
+    border-radius: 11px;
+
+    box-shadow: var(--shadow);
 
     transition:
-        border-color 0.2s,
-        transform 0.2s;
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.stat-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    right: -45px;
+    bottom: -50px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(37, 99, 235, 0.12),
+            transparent 70%
+        );
+
+    pointer-events: none;
 }
 
 .stat-card:hover {
-    border-color: #2a3a4f;
+    border-color: var(--border-light);
 
     transform: translateY(-2px);
+
+    box-shadow:
+        var(--shadow),
+        var(--shadow-blue);
 }
 
 .stat-header {
@@ -427,9 +513,9 @@ button {
 
     font-size: 10px;
 
-    font-weight: 600;
+    font-weight: 650;
 
-    letter-spacing: 0.6px;
+    letter-spacing: 0.7px;
 }
 
 .stat-icon {
@@ -439,27 +525,27 @@ button {
 }
 
 .stat-value {
-    margin-top: 14px;
+    margin-top: 15px;
 
-    font-size: 23px;
+    font-size: 24px;
 
-    font-weight: 700;
+    font-weight: 750;
 
-    letter-spacing: -0.5px;
+    letter-spacing: -0.6px;
 }
 
 .stat-value.green {
-    color: #4ade80;
+    color: var(--green-light);
 }
 
 .stat-value.red {
-    color: #f87171;
+    color: var(--red-light);
 }
 
 .stat-subtitle {
     margin-top: 6px;
 
-    color: #65758a;
+    color: var(--muted-dark);
 
     font-size: 10px;
 }
@@ -488,12 +574,14 @@ button {
         linear-gradient(
             145deg,
             #0f1723,
-            #0d141f
+            #0b121c
         );
 
     border: 1px solid var(--border);
 
-    border-radius: 10px;
+    border-radius: 11px;
+
+    box-shadow: var(--shadow);
 }
 
 .panel-header {
@@ -507,12 +595,14 @@ button {
 
     align-items: center;
     justify-content: space-between;
+
+    gap: 15px;
 }
 
 .panel-header h2 {
     font-size: 14px;
 
-    font-weight: 650;
+    font-weight: 700;
 }
 
 .panel-header span {
@@ -540,8 +630,8 @@ button {
     background:
         radial-gradient(
             circle at center,
-            #111b29 0%,
-            #05090f 65%
+            #111c2b 0%,
+            #05090f 68%
         );
 
     display: flex;
@@ -552,7 +642,32 @@ button {
     overflow: hidden;
 }
 
+.camera-container::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            rgba(255, 255, 255, 0.015) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.015) 1px,
+            transparent 1px
+        );
+
+    background-size: 35px 35px;
+}
+
 .camera-feed {
+    position: relative;
+
     width: 100%;
     height: 390px;
 
@@ -561,17 +676,23 @@ button {
     background: #000;
 
     display: block;
+
+    z-index: 1;
 }
 
 .camera-placeholder {
+    position: relative;
+
+    z-index: 2;
+
     text-align: center;
 
     color: var(--muted);
 }
 
 .camera-icon {
-    width: 70px;
-    height: 70px;
+    width: 72px;
+    height: 72px;
 
     margin: 0 auto 18px;
 
@@ -583,7 +704,8 @@ button {
 
     color: #475569;
 
-    background: rgba(71, 85, 105, 0.08);
+    background:
+        rgba(71, 85, 105, 0.08);
 
     border: 1px solid #263449;
 
@@ -612,7 +734,7 @@ button {
     background:
         rgba(239, 68, 68, 0.10);
 
-    color: #f87171;
+    color: var(--red-light);
 
     font-size: 9px;
 
@@ -625,7 +747,7 @@ button {
     background:
         rgba(34, 197, 94, 0.10);
 
-    color: #4ade80;
+    color: var(--green-light);
 }
 
 .camera-controls {
@@ -636,6 +758,8 @@ button {
     display: flex;
 
     gap: 8px;
+
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -643,7 +767,7 @@ button {
 
     border-radius: 6px;
 
-    padding: 9px 13px;
+    padding: 9px 14px;
 
     cursor: pointer;
 
@@ -652,9 +776,10 @@ button {
     font-weight: 700;
 
     transition:
-        background 0.2s,
-        opacity 0.2s,
-        transform 0.2s;
+        background 0.2s ease,
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .btn:hover:not(:disabled) {
@@ -675,6 +800,9 @@ button {
 
 .btn-start:hover:not(:disabled) {
     background: #16a34a;
+
+    box-shadow:
+        0 5px 18px rgba(34, 197, 94, 0.18);
 }
 
 .btn-stop {
@@ -685,6 +813,9 @@ button {
 
 .btn-stop:hover:not(:disabled) {
     background: #dc2626;
+
+    box-shadow:
+        0 5px 18px rgba(239, 68, 68, 0.18);
 }
 
 .btn-snapshot {
@@ -695,6 +826,9 @@ button {
 
 .btn-snapshot:hover:not(:disabled) {
     background: #1d4ed8;
+
+    box-shadow:
+        0 5px 18px rgba(37, 99, 235, 0.20);
 }
 
 
@@ -749,17 +883,19 @@ button {
     font-weight: 800;
 
     letter-spacing: 0.4px;
+
+    white-space: nowrap;
 }
 
 .badge.ready {
-    color: #4ade80;
+    color: var(--green-light);
 
     background:
         rgba(34, 197, 94, 0.10);
 }
 
 .badge.offline {
-    color: #f87171;
+    color: var(--red-light);
 
     background:
         rgba(239, 68, 68, 0.10);
@@ -784,7 +920,7 @@ button {
 .refresh-btn {
     border: 1px solid var(--border);
 
-    background: var(--panel-light);
+    background: var(--panel-soft);
 
     color: #cbd5e1;
 
@@ -798,13 +934,19 @@ button {
 
     font-weight: 600;
 
-    transition: 0.2s;
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease;
 }
 
 .refresh-btn:hover {
     border-color: var(--blue);
 
     color: white;
+
+    background:
+        rgba(37, 99, 235, 0.08);
 }
 
 .table-container {
@@ -818,7 +960,7 @@ table {
 }
 
 thead {
-    background: #0b121d;
+    background: #0a111b;
 }
 
 th {
@@ -848,11 +990,12 @@ td {
 }
 
 tbody tr {
-    transition: background 0.2s;
+    transition: background 0.2s ease;
 }
 
 tbody tr:hover {
-    background: rgba(255, 255, 255, 0.015);
+    background:
+        rgba(255, 255, 255, 0.018);
 }
 
 .empty-state {
@@ -864,7 +1007,7 @@ tbody tr:hover {
 }
 
 .severity-info {
-    color: #60a5fa;
+    color: var(--blue-light);
 }
 
 .severity-warning {
@@ -872,7 +1015,31 @@ tbody tr:hover {
 }
 
 .severity-critical {
-    color: #f87171;
+    color: var(--red-light);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #070c14;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1d2b3d;
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2a3c54;
 }
 
 
@@ -881,7 +1048,6 @@ tbody tr:hover {
 ========================================================= */
 
 @media (max-width: 1150px) {
-
     .stats-grid {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
@@ -893,7 +1059,6 @@ tbody tr:hover {
 }
 
 @media (max-width: 800px) {
-
     .sidebar {
         width: 70px;
     }
@@ -906,6 +1071,11 @@ tbody tr:hover {
 
     .brand > div:last-child {
         display: none;
+    }
+
+    .navigation {
+        padding-left: 9px;
+        padding-right: 9px;
     }
 
     .nav-item {
@@ -933,7 +1103,7 @@ tbody tr:hover {
 
         margin-left: 70px;
 
-        padding: 20px 15px;
+        padding: 20px 15px 40px;
     }
 
     .topbar {
@@ -950,7 +1120,6 @@ tbody tr:hover {
 }
 
 @media (max-width: 550px) {
-
     .stats-grid {
         grid-template-columns: 1fr;
     }
@@ -967,5 +1136,16 @@ tbody tr:hover {
     .camera-feed {
         min-height: 280px;
         height: 280px;
+    }
+
+    .panel-header {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    th,
+    td {
+        padding-left: 12px;
+        padding-right: 12px;
     }
 }
